@@ -1,0 +1,6 @@
+{
+  "config.safetweaks.title": "SafeTweaks",
+  "config.safetweaks.category": "Main",
+  "config.safetweaks.gamma": "Gamma",
+  "config.safetweaks.render-distance-fog": "Render distance fog override"
+}
