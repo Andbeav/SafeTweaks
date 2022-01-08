@@ -19,7 +19,13 @@ public class InitializerMod implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-        FeatureFlagManager.getInstance().set("renderDistanceFogToggle", false);
+        initializeFeatureFlags();
+
 		LOGGER.info("SafeTweaks init!");
 	}
+
+    private void initializeFeatureFlags() {
+        FeatureFlagManager featureFlags = FeatureFlagManager.getInstance();
+        featureFlags.set("renderDistanceFogToggle", false);
+    }
 }

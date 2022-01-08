@@ -28,7 +28,7 @@ public class FeatureFlagManager {
         if(FeatureFlags.keySet().contains(key)) {
             return FeatureFlags.get(key);
         } else {
-            throw new FeatureMissingException("Key does not found in features: " + key);
+            throw new FeatureMissingException("Key not found in features: " + key);
         }
     }
 }

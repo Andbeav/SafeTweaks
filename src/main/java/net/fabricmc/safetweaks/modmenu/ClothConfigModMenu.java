@@ -29,14 +29,10 @@ public class ClothConfigModMenu {
 
         // Gamma tweak
         Double gamma = client.options.gamma;
-        tweaks.addEntry(entryBuilder.startDoubleField(new TranslatableText("config.safetweaks.gamma"), gamma).setDefaultValue(gamma).setSaveConsumer(newVal -> client.options.gamma = newVal).build());
+        tweaks.addEntry(entryBuilder.startDoubleField(new TranslatableText("config.safetweaks.gamma"), gamma).setDefaultValue(0.0).setSaveConsumer(newVal -> client.options.gamma = newVal).build());
 
         // Render distance fog override tweak
-        tweaks.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), false).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("renderDistanceFogToggle", newVal); }).build());
-
-        // On save
-        // builder.setSavingRunnable(() -> {
-        // });
+        tweaks.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("renderDistanceFogToggle")).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("renderDistanceFogToggle", newVal); }).build());
 
         // Returning the builder
         builder.transparentBackground();
