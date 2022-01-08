@@ -1,10 +1,11 @@
 # SafeTweaks
 
-QOL tweaks that should be safe for any normal servers to allow
+QOL tweaks that should be safe for servers. Think [Tweakeroo](https://github.com/maruohon/tweakeroo) without the 'hacky' features.
 
 ## Requirements
 
-I believe it's only ModMenu/ClothConfig
+* [ModMenu](https://github.com/TerraformersMC/ModMenu)
+* [ClothConfig](https://github.com/shedaniel/cloth-config)
 
 ## Current tweaks
 
@@ -13,4 +14,4 @@ I believe it's only ModMenu/ClothConfig
 
 ## Usage
 
-Accessing the SafeTweaks menu in the mod menu should give you the options.
+Assuming you have the required mods, the Mod menu button on the main/pause screen should list SafeTweaks and the given options.
