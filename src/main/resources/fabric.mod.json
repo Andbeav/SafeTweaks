@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.safetweaks.InitializerMod"
+      "net.fabricmc.safetweaks.SafeTweaksClient"
     ],
     "modmenu": [
       "net.fabricmc.safetweaks.modmenu.ModMenuIntegration"

@@ -1,6 +1,7 @@
 package net.fabricmc.safetweaks.mixin;
 
-import net.fabricmc.safetweaks.InitializerMod;
+import net.fabricmc.safetweaks.SafeTweaksClient;
+import net.fabricmc.safetweaks.config.FeatureFlagManager;
 import net.minecraft.client.gui.screen.TitleScreen;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class EntryMixin {
 	@Inject(at = @At("HEAD"), method = "init()V")
 	private void init(CallbackInfo info) {
-		InitializerMod.LOGGER.info("This line is printed from SafeTweaks!");
+		SafeTweaksClient.LOGGER.info("This line is printed from SafeTweaks!");
     }
 }

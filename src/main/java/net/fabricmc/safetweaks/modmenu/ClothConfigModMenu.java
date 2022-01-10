@@ -9,9 +9,13 @@ import net.minecraft.text.TranslatableText;
 
 public class ClothConfigModMenu {
 
-    private static FeatureFlagManager featureFlags = FeatureFlagManager.getInstance();
+    private static FeatureFlagManager featureFlags = FeatureFlagManager.getInstance((instance) -> {
+        // Skip setting defaults unless the flags are empty
+        if(!instance.isEmpty()) { return; }
 
-
+        // Set default flags here
+        instance.set("renderDistanceFogToggle", false);
+    });
 
     public static ConfigBuilder getConfigBuilderWithOptions() {
 
@@ -33,6 +37,11 @@ public class ClothConfigModMenu {
 
         // Render distance fog override tweak
         tweaks.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("renderDistanceFogToggle")).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("renderDistanceFogToggle", newVal); }).build());
+
+        // On save
+        builder.setSavingRunnable(() -> {
+            FeatureFlagManager.saveFlagsPersistent();
+        });
 
         // Returning the builder
         builder.transparentBackground();
