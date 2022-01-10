@@ -106,14 +106,19 @@ public class BackgroundRendererMixin {
         {
             if (thickFog == false && wasLava == false)
             {
-                MinecraftClient mc = MinecraftClient.getInstance();
-                try {
-                    float distance = Math.max(512, mc.gameRenderer.getViewDistance());
-                    RenderSystem.setShaderFogStart(distance * 1.6F);
-                    RenderSystem.setShaderFogEnd(distance * 2.0F);
-                } finally {
-                    mc.close();
-                }
+                // Attempt to clean resource leak
+                // MinecraftClient mc = MinecraftClient.getInstance();
+                // try {
+                //     float distance = Math.max(512, mc.gameRenderer.getViewDistance());
+                //     RenderSystem.setShaderFogStart(distance * 1.6F);
+                //     RenderSystem.setShaderFogEnd(distance * 2.0F);
+                // } finally {
+                //     mc.close();
+                // }
+
+                float distance = Math.max(512, MinecraftClient.getInstance().gameRenderer.getViewDistance());
+                RenderSystem.setShaderFogStart(distance * 1.6F);
+                RenderSystem.setShaderFogEnd(distance * 2.0F);
             }
 
             wasLava = false;
