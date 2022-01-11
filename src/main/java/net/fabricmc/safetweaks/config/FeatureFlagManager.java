@@ -85,15 +85,15 @@ public class FeatureFlagManager {
             File file = new File(path);
             file.createNewFile(); // Does nothing if file exists already
 
-            PrintWriter pr = new PrintWriter(new File(path));
+            PrintWriter pr = new PrintWriter(file);
             for (Map.Entry<String, Boolean> entry : flags.entrySet()) {
                 pr.println(entry.getKey() + "=" + entry.getValue().toString());
             }
             pr.close();
         } catch (FileNotFoundException e) {
-            SafeTweaksClient.LOGGER.error("Error writing flags: " + e.getMessage());
+            SafeTweaksClient.LOGGER.error("Error writing feature flags: " + e.getMessage());
         } catch (IOException e) {
-            SafeTweaksClient.LOGGER.error("Error writing flags: " + e.getMessage());
+            SafeTweaksClient.LOGGER.error("Error writing feature flags: " + e.getMessage());
         }
     }
 

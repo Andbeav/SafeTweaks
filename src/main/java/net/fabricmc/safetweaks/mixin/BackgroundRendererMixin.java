@@ -106,7 +106,7 @@ public class BackgroundRendererMixin {
         {
             if (thickFog == false && wasLava == false)
             {
-                // Attempt to clean resource leak
+                // Attempt to clean possible resource leak
                 // MinecraftClient mc = MinecraftClient.getInstance();
                 // try {
                 //     float distance = Math.max(512, mc.gameRenderer.getViewDistance());
