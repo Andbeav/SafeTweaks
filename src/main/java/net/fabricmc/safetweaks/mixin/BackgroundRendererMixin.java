@@ -35,7 +35,7 @@ public class BackgroundRendererMixin {
         wasLava = true;
 
         // if (/*FeatureToggle.TWEAK_LAVA_VISIBILITY.getBooleanValue()*/true)
-        if(featureFlagManager.get("renderDistanceFogToggle"))
+        if(featureFlagManager.get("config.safetweaks.render-distance-fog"))
         {
             return 0.0f;
         }
@@ -102,7 +102,7 @@ public class BackgroundRendererMixin {
             float viewDistance, boolean thickFog, CallbackInfo ci)
     {
         // if (/*Configs.Disable.DISABLE_RENDER_DISTANCE_FOG.getBooleanValue()*/true)
-        if(featureFlagManager.get("renderDistanceFogToggle"))
+        if(featureFlagManager.get("config.safetweaks.render-distance-fog"))
         {
             if (thickFog == false && wasLava == false)
             {

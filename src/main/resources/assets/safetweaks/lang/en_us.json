@@ -1,6 +1,9 @@
 {
   "config.safetweaks.title": "SafeTweaks",
-  "config.safetweaks.category": "Main",
+  "config.safetweaks.tweaks-category": "Tweaks",
+  "config.safetweaks.keybinds-category": "Keybinds",
   "config.safetweaks.gamma": "Gamma",
-  "config.safetweaks.render-distance-fog": "Render distance fog override"
+  "config.safetweaks.render-distance-fog": "Render distance fog override",
+
+  "key-binds.safetweaks.category": "SafeTweaks"
 }

@@ -14,7 +14,7 @@ import net.fabricmc.safetweaks.SafeTweaksClient;
 
 public class FeatureFlagManager {
 
-    public interface setDefaultCallback {
+    public interface callback {
         public void run(FeatureFlagManager i);
     }
 
@@ -37,7 +37,7 @@ public class FeatureFlagManager {
         return instance;
     }
 
-    public static FeatureFlagManager getInstance(setDefaultCallback overrideFlags) {
+    public static FeatureFlagManager getInstance(callback overrideFlags) {
         overrideFlags.run(instance);
         return instance;
     }
@@ -53,9 +53,16 @@ public class FeatureFlagManager {
     public Boolean get(String key) throws FeatureMissingException {
         if(FeatureFlags.keySet().contains(key)) {
             return FeatureFlags.get(key);
-        } else {
-            throw new FeatureMissingException("Key not found in features: " + key);
         }
+        throw new FeatureMissingException("Key not found in features: " + key);
+    }
+
+    public Boolean get(String key, Boolean defaultVal) {
+        if(FeatureFlags.keySet().contains(key)) {
+            return FeatureFlags.get(key);
+        }
+        set(key, defaultVal);
+        return defaultVal;
     }
 
     // Set FeatureFlags from file for persistent flags

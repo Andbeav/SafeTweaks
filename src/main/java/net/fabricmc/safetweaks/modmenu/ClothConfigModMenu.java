@@ -4,7 +4,10 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.safetweaks.config.FeatureFlagManager;
+import net.fabricmc.safetweaks.config.KeyBindManager;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.TranslatableText;
 
 public class ClothConfigModMenu {
@@ -14,37 +17,62 @@ public class ClothConfigModMenu {
         if(!instance.isEmpty()) { return; }
 
         // Set default flags here
-        instance.set("renderDistanceFogToggle", false);
+        instance.set("config.safetweaks.render-distance-fog", false);
+        FeatureFlagManager.saveFlagsPersistent();
+    });
+
+    private static KeyBindManager keyBindManager = KeyBindManager.getInstance((instance) -> {
+        if(!instance.isEmpty()) { return; }
+        final String translatableCat = "key-binds.safetweaks.category";
+
+        // Render distance keybind default
+        final String fogOverrideID = "config.safetweaks.render-distance-fog";
+        instance.set(fogOverrideID, new KeyBinding(fogOverrideID, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), translatableCat));
+        KeyBindManager.saveBindsPersistent();
     });
 
     public static ConfigBuilder getConfigBuilderWithOptions() {
-
-        // Am lazy so no persistent storage, flags will be disabled by default (in initializer mod)
-
         // Builder setup
         ConfigBuilder builder = ConfigBuilder.create().setTitle(new TranslatableText("config.safetweaks.title"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        // MC Client (mostly for getting options)
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        // Tweaks category
-        ConfigCategory tweaks = builder.getOrCreateCategory(new TranslatableText("config.safetweaks.category"));
-
-        // Gamma tweak
-        Double gamma = client.options.gamma;
-        tweaks.addEntry(entryBuilder.startDoubleField(new TranslatableText("config.safetweaks.gamma"), gamma).setDefaultValue(0.0).setSaveConsumer(newVal -> client.options.gamma = newVal).build());
-
-        // Render distance fog override tweak
-        tweaks.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("renderDistanceFogToggle")).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("renderDistanceFogToggle", newVal); }).build());
+        // Categories
+        createTweaksCategory(builder, entryBuilder);
+        createKeyBindsCategory(builder, entryBuilder);
 
         // On save
         builder.setSavingRunnable(() -> {
             FeatureFlagManager.saveFlagsPersistent();
+            KeyBindManager.saveBindsPersistent();
         });
 
         // Returning the builder
         builder.transparentBackground();
         return builder;
+    }
+
+    // Tweaks category
+    private static void createTweaksCategory(ConfigBuilder builder, ConfigEntryBuilder entryBuilder) {
+        ConfigCategory tweaksCat = builder.getOrCreateCategory(new TranslatableText("config.safetweaks.tweaks-category"));
+
+        // Gamma tweak
+        MinecraftClient client = MinecraftClient.getInstance();
+        tweaksCat.addEntry(entryBuilder.startDoubleField(new TranslatableText("config.safetweaks.gamma"), client.options.gamma).setDefaultValue(0.0).setSaveConsumer(newVal -> client.options.gamma = newVal).build());
+
+        // Render distance fog override tweak
+        tweaksCat.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("config.safetweaks.render-distance-fog", false)).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("config.safetweaks.render-distance-fog", newVal); }).build());
+    }
+
+    // KeyBinds category
+    private static void createKeyBindsCategory(ConfigBuilder builder, ConfigEntryBuilder entryBuilder) {
+        final String fogOverrideID = "config.safetweaks.render-distance-fog";
+        final String translatableCat = "key-binds.safetweaks.category";
+
+        ConfigCategory keyBindsCat = builder.getOrCreateCategory(new TranslatableText("config.safetweaks.keybinds-category"));
+
+        // Render distance fog toggle keyBind
+        keyBindsCat.addEntry(entryBuilder.startKeyCodeField(new TranslatableText(fogOverrideID), keyBindManager.get(fogOverrideID).getDefaultKey()).setDefaultValue(InputUtil.UNKNOWN_KEY).setSaveConsumer(newVal -> {
+            keyBindManager.set(fogOverrideID, new KeyBinding(fogOverrideID, InputUtil.Type.KEYSYM, newVal.getCode(), translatableCat));
+        }).build());
     }
 }
