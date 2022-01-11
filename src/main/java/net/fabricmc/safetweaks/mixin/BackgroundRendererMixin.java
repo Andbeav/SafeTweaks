@@ -1,6 +1,7 @@
 package net.fabricmc.safetweaks.mixin;
 
 // Taken from the temporary 1.18 implementation of tweakeroo: https://github.com/maruohon/tweakeroo/blob/fabric_1.18_temp_features/src/main/java/fi/dy/masa/tweakeroo/mixin/MixinBackgroundRenderer.java
+// Minor edits made from the tweakeroo implementation
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -105,6 +106,16 @@ public class BackgroundRendererMixin {
         {
             if (thickFog == false && wasLava == false)
             {
+                // Attempt to clean possible resource leak
+                // MinecraftClient mc = MinecraftClient.getInstance();
+                // try {
+                //     float distance = Math.max(512, mc.gameRenderer.getViewDistance());
+                //     RenderSystem.setShaderFogStart(distance * 1.6F);
+                //     RenderSystem.setShaderFogEnd(distance * 2.0F);
+                // } finally {
+                //     mc.close();
+                // }
+
                 float distance = Math.max(512, MinecraftClient.getInstance().gameRenderer.getViewDistance());
                 RenderSystem.setShaderFogStart(distance * 1.6F);
                 RenderSystem.setShaderFogEnd(distance * 2.0F);
