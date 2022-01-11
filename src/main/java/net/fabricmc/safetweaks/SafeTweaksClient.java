@@ -5,11 +5,11 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.safetweaks.config.FeatureFlagManager;
 // import net.fabricmc.safetweaks.config.FeatureFlagManager;
 import net.fabricmc.safetweaks.config.KeyBindManager;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +31,7 @@ public class SafeTweaksClient implements ModInitializer {
 		LOGGER.info("SafeTweaks init!");
 
         registerKeyBinds();
+        registerDoubleSneakToggle();
 	}
 
     private void registerKeyBinds() {
@@ -47,6 +48,18 @@ public class SafeTweaksClient implements ModInitializer {
             // while(KeyBinding.wasPressed()) {
             //     client.player.sendMessage(new LiteralText("Unknown key was pressed"), false);
             // }
+        });
+    }
+
+    private void registerDoubleSneakToggle() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if(mc.player == null) { return; }
+            if(FeatureFlagManager.getInstance().get("config.safetweaks.double-sneak", false)) {
+                mc.options.sneakToggled = true;
+            } else {
+                mc.options.sneakToggled = false;
+            }
         });
     }
 

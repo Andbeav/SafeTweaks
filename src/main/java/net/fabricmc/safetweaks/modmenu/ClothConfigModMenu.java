@@ -18,6 +18,7 @@ public class ClothConfigModMenu {
 
         // Set default flags here
         instance.set("config.safetweaks.render-distance-fog", false);
+        instance.set("config.safetweaks.permanent-sneak", false);
         FeatureFlagManager.saveFlagsPersistent();
     });
 
@@ -28,6 +29,11 @@ public class ClothConfigModMenu {
         // Render distance keybind default
         final String fogOverrideID = "config.safetweaks.render-distance-fog";
         instance.set(fogOverrideID, new KeyBinding(fogOverrideID, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), translatableCat));
+
+        // Double sneak toggle keybind default
+        final String doubleSneakID = "config.safetweaks.double-sneak";
+        instance.set(doubleSneakID, new KeyBinding(doubleSneakID, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), translatableCat));
+
         KeyBindManager.saveBindsPersistent();
     });
 
@@ -60,12 +66,16 @@ public class ClothConfigModMenu {
         tweaksCat.addEntry(entryBuilder.startDoubleField(new TranslatableText("config.safetweaks.gamma"), client.options.gamma).setDefaultValue(0.0).setSaveConsumer(newVal -> client.options.gamma = newVal).build());
 
         // Render distance fog override tweak
-        tweaksCat.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("config.safetweaks.render-distance-fog", false)).setDefaultValue(false).setSaveConsumer((newVal) -> { featureFlags.set("config.safetweaks.render-distance-fog", newVal); }).build());
+        tweaksCat.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.render-distance-fog"), featureFlags.get("config.safetweaks.render-distance-fog", false)).setDefaultValue(false).setSaveConsumer(newVal -> featureFlags.set("config.safetweaks.render-distance-fog", newVal)).build());
+
+        // Double toggle sneak tweak
+        tweaksCat.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.double-sneak"), featureFlags.get("config.safetweaks.double-sneak", false)).setDefaultValue(false).setSaveConsumer(newVal -> featureFlags.set("config.safetweaks.double-sneak", newVal)).build());
     }
 
     // KeyBinds category
     private static void createKeyBindsCategory(ConfigBuilder builder, ConfigEntryBuilder entryBuilder) {
         final String fogOverrideID = "config.safetweaks.render-distance-fog";
+        final String doubleSneakID = "config.safetweaks.double-sneak";
         final String translatableCat = "key-binds.safetweaks.category";
 
         ConfigCategory keyBindsCat = builder.getOrCreateCategory(new TranslatableText("config.safetweaks.keybinds-category"));
@@ -73,6 +83,11 @@ public class ClothConfigModMenu {
         // Render distance fog toggle keyBind
         keyBindsCat.addEntry(entryBuilder.startKeyCodeField(new TranslatableText(fogOverrideID), keyBindManager.get(fogOverrideID).getDefaultKey()).setDefaultValue(InputUtil.UNKNOWN_KEY).setSaveConsumer(newVal -> {
             keyBindManager.set(fogOverrideID, new KeyBinding(fogOverrideID, InputUtil.Type.KEYSYM, newVal.getCode(), translatableCat));
+        }).build());
+
+        // Double toggle sneak tweak
+        keyBindsCat.addEntry(entryBuilder.startKeyCodeField(new TranslatableText(doubleSneakID), keyBindManager.get(doubleSneakID).getDefaultKey()).setDefaultValue(InputUtil.UNKNOWN_KEY).setSaveConsumer(newVal -> {
+            keyBindManager.set(doubleSneakID, new KeyBinding(doubleSneakID, InputUtil.Type.KEYSYM, newVal.getCode(), translatableCat));
         }).build());
     }
 }
