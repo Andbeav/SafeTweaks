@@ -1,6 +1,6 @@
 # SafeTweaks
 
-QOL tweaks that should be safe for servers. Think [Tweakeroo](https://github.com/maruohon/tweakeroo) without the 'hacky' features.
+QOL tweaks that should be safe for use on servers. Think [Tweakeroo](https://github.com/maruohon/tweakeroo) without the 'hacky' features.
 
 ## Requirements
 
@@ -9,8 +9,11 @@ QOL tweaks that should be safe for servers. Think [Tweakeroo](https://github.com
 
 ## Current tweaks
 
+Toggles support keybinds
+
 * Gamma override
-* Render distance fog override
+* Toggle render distance fog
+* Toggle hold/tap crouch
 
 ## Usage
 
