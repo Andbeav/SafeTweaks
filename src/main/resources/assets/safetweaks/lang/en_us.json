@@ -5,6 +5,5 @@
   "config.safetweaks.gamma": "Gamma",
   "config.safetweaks.render-distance-fog": "Render distance fog override",
   "config.safetweaks.double-sneak": "Double toggle sneak (ad hoc toggle)",
-
-  "key-binds.safetweaks.category": "SafeTweaks"
+  "config.safetweaks.max-fps": "Max fps override"
 }

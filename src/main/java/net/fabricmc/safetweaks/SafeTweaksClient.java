@@ -30,8 +30,11 @@ public class SafeTweaksClient implements ModInitializer {
 
 		LOGGER.info("SafeTweaks init!");
 
+        // MinecraftClient mc = MinecraftClient.getInstance();
+
         registerKeyBinds();
         registerDoubleSneakToggle();
+        registerMaxFpsToggle(/*mc.options.maxFps*/120);
 	}
 
     private void registerKeyBinds() {
@@ -55,10 +58,18 @@ public class SafeTweaksClient implements ModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             MinecraftClient mc = MinecraftClient.getInstance();
             if(mc.player == null) { return; }
+            mc.options.sneakToggled = FeatureFlagManager.getInstance().get("config.safetweaks.double-sneak", false);
+        });
+    }
+
+    private void registerMaxFpsToggle(final Integer defaultFps) {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if(mc.player == null) { return; }
             if(FeatureFlagManager.getInstance().get("config.safetweaks.double-sneak", false)) {
-                mc.options.sneakToggled = true;
+                mc.options.maxFps = 30;
             } else {
-                mc.options.sneakToggled = false;
+                mc.options.maxFps = defaultFps;
             }
         });
     }

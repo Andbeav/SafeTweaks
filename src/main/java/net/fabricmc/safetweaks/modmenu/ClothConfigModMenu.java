@@ -19,12 +19,13 @@ public class ClothConfigModMenu {
         // Set default flags here
         instance.set("config.safetweaks.render-distance-fog", false);
         instance.set("config.safetweaks.permanent-sneak", false);
+        instance.set("config.safetweaks.max-fps", false);
         FeatureFlagManager.saveFlagsPersistent();
     });
 
     private static KeyBindManager keyBindManager = KeyBindManager.getInstance((instance) -> {
         if(!instance.isEmpty()) { return; }
-        final String translatableCat = "key-binds.safetweaks.category";
+        final String translatableCat = "config.safetweaks.title";
 
         // Render distance keybind default
         final String fogOverrideID = "config.safetweaks.render-distance-fog";
@@ -70,13 +71,16 @@ public class ClothConfigModMenu {
 
         // Double toggle sneak tweak
         tweaksCat.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("config.safetweaks.double-sneak"), featureFlags.get("config.safetweaks.double-sneak", false)).setDefaultValue(false).setSaveConsumer(newVal -> featureFlags.set("config.safetweaks.double-sneak", newVal)).build());
+
+        // Max fps tweak
+        tweaksCat.addEntry(entryBuilder.startIntField(new TranslatableText("config.safetweaks.max-fps"), client.options.maxFps).setDefaultValue(120).setSaveConsumer(newVal -> client.options.maxFps = newVal).build());
     }
 
     // KeyBinds category
     private static void createKeyBindsCategory(ConfigBuilder builder, ConfigEntryBuilder entryBuilder) {
         final String fogOverrideID = "config.safetweaks.render-distance-fog";
         final String doubleSneakID = "config.safetweaks.double-sneak";
-        final String translatableCat = "key-binds.safetweaks.category";
+        final String translatableCat = "config.safetweaks.category";
 
         ConfigCategory keyBindsCat = builder.getOrCreateCategory(new TranslatableText("config.safetweaks.keybinds-category"));
 

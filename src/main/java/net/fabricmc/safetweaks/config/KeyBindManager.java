@@ -22,7 +22,7 @@ public class KeyBindManager {
 
     private static final KeyBindManager instance = new KeyBindManager();
     private final String filePath = FabricLoader.getInstance().getConfigDir().resolve("safetweaks-key-bindings.txt").toString();
-    private final String category = "key-binds.safetweaks.category";
+    private final String category = "config.safetweaks.title";
 
     private HashMap<String, KeyBinding> KeyBinds = new HashMap<String, KeyBinding>();
 
