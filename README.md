@@ -1,3 +1,5 @@
+> Archived, I don't play enough anymore to keep updated.
+
 # SafeTweaks
 
 QOL tweaks that should be safe for use on servers. Think [Tweakeroo](https://github.com/maruohon/tweakeroo) without the 'hacky' features.
